@@ -20,5 +20,5 @@ from django.urls.conf import include
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
 
-    re_path(r'^', include('dkea.urls', namespace='deka')),
+    re_path(r'^', include('dkea.urls')),
 ]

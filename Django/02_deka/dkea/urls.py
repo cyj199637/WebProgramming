@@ -1,7 +1,7 @@
 from django.urls import re_path
 from .views import *
 
-app_name = 'deka'
+app_name = 'dkea'
 
 urlpatterns = [
     re_path(r'^$', MainView, name='main'),

@@ -9,7 +9,7 @@
     <h1>DKEA</h1>
     <ul>
         {% for one in categories %}
-            <button onclick="window.location.href='{% url 'deka:list' one.c_code %}'">{{one.c_name}}</button>
+            <button onclick="window.location.href='{% url 'dkea:list' one.c_code %}'">{{one.c_name}}</button>
         {% endfor %}
     </ul>
 

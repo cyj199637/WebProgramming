@@ -24,12 +24,12 @@
         {% for one in products %}
             <div class="productBox">
                 <div class="productImg">
-                    <a href="{% url 'deka:detail' one.p_id %}">
+                    <a href="{% url 'dkea:detail' one.p_id %}">
                         <img src="{{one.img_src}}" alt="상품 이미지" class="innerImg">
                     </a>
                 </div>
                 <div class="productInfo">
-                    <a href="{% url 'deka:detail' one.p_id %}"><h5>{{one.p_name}}</h5></a>
+                    <a href="{% url 'dkea:detail' one.p_id %}"><h5>{{one.p_name}}</h5></a>
                     <p>{{one.price}}원</p>
                 </div>
             </div>
