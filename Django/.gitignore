@@ -218,3 +218,6 @@ dmypy.json
 
 # mysql setting file
 mysql.cnf
+
+# Django settings.py SECRET_KEY file
+secret.json
