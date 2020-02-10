@@ -12,3 +12,6 @@ def PreMainView(request, user_id):
     if isSession is not False:
         render_page = "main.html"
         return render(request, render_page)
+
+    else:
+        return redirect('accounts:pn_login')

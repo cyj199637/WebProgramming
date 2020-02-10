@@ -47,7 +47,8 @@ def PreLoginView(request):
                 reg_pw = datas[0][1]
                 salt = datas[0][2]
 
-                hashed_pw = hashlib.md5(str(user_pw + salt).encode('utf-8')).hexdigest()
+                hash = pbkdf2(user_pw, salt, 100, digest=hashlib.sha256)
+                hashed_pw = base64.b64encode(hash).decode('ascii').strip()
 
                 # 2.2 비밀번호가 틀린 경우: 로그인 실패
                 if str(hashed_pw) != reg_pw:

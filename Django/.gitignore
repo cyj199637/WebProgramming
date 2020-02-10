@@ -220,4 +220,4 @@ dmypy.json
 mysql.cnf
 
 # Django settings.py SECRET_KEY file
-secret.json
+secrets.json
