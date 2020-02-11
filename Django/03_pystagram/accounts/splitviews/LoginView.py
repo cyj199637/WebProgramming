@@ -29,7 +29,7 @@ def LoginView(request):
 
         if user is not None:
             login(request, user=user)
-            return redirect('pystagram:pn_main', user.username)
+            return redirect('pystagram:pn_main')
 
         else:
             messages.error(request, '아이디 혹은 비밀번호가 틀렸습니다. 다시 입력해주세요.')

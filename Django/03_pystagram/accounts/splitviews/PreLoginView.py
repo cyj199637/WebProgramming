@@ -58,7 +58,7 @@ def PreLoginView(request):
                 # 2.3 둘 다 맞는 경우: 로그인 성공
                 else:
                     request.session['user_id'] = reg_id
-                    return redirect('pystagram:pn_main', reg_id)
+                    return redirect('pystagram:pn_main')
 
         except:
             connection.rollback()
