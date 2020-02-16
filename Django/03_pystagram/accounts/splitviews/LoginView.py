@@ -25,7 +25,7 @@ def LoginView(request):
         user_pw = request.POST.get('user_pw')
 
 
-        user = authenticate(username=user_id, password=user_pw)
+        user = authenticate(request, username=user_id, password=user_pw)
 
         if user is not None:
             login(request, user=user)

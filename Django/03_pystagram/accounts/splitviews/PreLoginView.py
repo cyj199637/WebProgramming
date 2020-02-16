@@ -39,7 +39,7 @@ def PreLoginView(request):
 
             # 2.1 아이디가 틀린 경우: 로그인 실패
             if len(datas) == 0:
-                messages.error(request, '존재하지 않는 아이디입니다. 다시 입력해주세요.')
+                messages.error(request, '아이디나 비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
                 return redirect('accounts:pn_login')
 
             else:
@@ -47,12 +47,12 @@ def PreLoginView(request):
                 reg_pw = datas[0][1]
                 salt = datas[0][2]
 
-                hash = pbkdf2(user_pw, salt, 100, digest=hashlib.sha256)
+                hash = pbkdf2(user_pw, salt, 10000, digest=hashlib.sha256)
                 hashed_pw = base64.b64encode(hash).decode('ascii').strip()
 
                 # 2.2 비밀번호가 틀린 경우: 로그인 실패
                 if str(hashed_pw) != reg_pw:
-                    messages.error(request, '비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
+                    messages.error(request, '아이디나 비밀번호가 일치하지 않습니다. 다시 입력해주세요.')
                     return redirect('accounts:pn_login')
 
                 # 2.3 둘 다 맞는 경우: 로그인 성공

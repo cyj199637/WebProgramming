@@ -1,4 +1,3 @@
-from .FirstAccessView import *
-from .PreFirstAccessView import *
 from .MainView import *
 from .PreMainView import *
+from .PostListView import *
