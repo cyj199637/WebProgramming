@@ -1,7 +1,7 @@
 from .common import *
 
 """
-[Pystagram] 나의 포스팅 페이지
+[Pystagram] 포스트 리스트 페이지
 : 사용자가 작성한 포스트만을 볼 수 있는 페이지
 - PostListView is linked by post_list.html
 
@@ -36,7 +36,7 @@ def PostListView(request, user_id):
 
     except:
         connection.rollback()
-        print("Failed selecting in MainView")
+        print("Failed selecting in PostListView")
 
         messages.error(request, "포스트를 가져오는데 에러가 발생하였습니다.")
         render_page = "post_list.html"
