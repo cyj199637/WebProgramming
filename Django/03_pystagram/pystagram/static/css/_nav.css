@@ -17,3 +17,25 @@ i{
 .search{
     margin-bottom:0.5rem;
 }
+a:link{
+    color: black;
+    text-decoration: none;
+}
+a:visited{
+    color: black;
+    text-decoration: none;
+}
+a:hover{
+    color: lightslategrey;
+    text-decoration: none;
+}
+.insta_logo:visited{
+    color: black;
+    text-decoration: none;
+}
+.navUserImg{
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    margin: 1rem;
+}

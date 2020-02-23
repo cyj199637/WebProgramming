@@ -17,7 +17,7 @@ def MainView(request):
     try:
         cursor = connection.cursor()
 
-        strSql = "SELECT post_id, user_id, post_img_src, content, time"
+        strSql = "SELECT post_id, user_id, post_img_url, content, time"
         strSql += " FROM post"
         strSql += " WHERE user_id IN"
         strSql += " ((SELECT following_id FROM following WHERE user_id = (%s)), (%s))"

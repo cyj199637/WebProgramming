@@ -9,14 +9,14 @@ from .common import *
 2. 가져온 포스트를 post_list.html에 rendering
 """
 
-@login_required
+# @login_required
 def PostListView(request, user_id):
     user = request.user
 
     try:
         cursor = connection.cursor()
 
-        strSql = "SELECT post_id, post_img_src"
+        strSql = "SELECT post_id, post_img_url"
         strSql += " FROM post"
         strSql += " WHERE user_id = (%s)"
         strSql += " ORDER BY time DESC"
@@ -27,7 +27,7 @@ def PostListView(request, user_id):
         posts = []
         for data in datas:
             raw_data = {'post_id': data[0],
-                        'post_img_src': data[1],}
+                        'post_img_url': data[1],}
             posts.append(raw_data)
 
         render_page = "post_list.html"

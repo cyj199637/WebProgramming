@@ -26,8 +26,18 @@ header img{
 .card_image img{
     width: 100%;
 }
-.user_name{
+.user_id{
     display: inline;
+}
+.user_img img{
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    border: 1px solid #efefef;
+    margin: 10px;
+}
+.user_name{
+    text-align: center;
 }
 .info{
     display: flex;
@@ -73,11 +83,4 @@ header img{
     background-color: #fafafa;
     width: 250px;
     height: 72px;
-}
-#card_right header img{
-    border-radius: 50%;
-    height: 50px;
-    width: 50px;
-    border: 1px solid #efefef;
-    margin: 10px;
 }

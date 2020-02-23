@@ -1,21 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-  <!-- Fontawesome 적용 -->
-  <script src="https://kit.fontawesome.com/0b02921f0e.js" crossorigin="anonymous"></script>
-
-
-  <style>
-    .postBox{
-    display: inline-block;
-    }
-    .innerImg{
-        width: 280px;
-        height: 300px;
-        padding: 4px;
-    }
-  </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/post_list.css' %}">
+    <!-- Fontawesome 적용 -->
+    <script src="https://kit.fontawesome.com/0b02921f0e.js" crossorigin="anonymous"></script>
 {% endblock head %}
 
 {% block title %}
@@ -23,28 +11,40 @@
 {% endblock title %}
 
 {% block _nav %}
-  {% include '_nav.html' %}
+    {% include '_nav.html' %}
 {% endblock _nav %}
 
 {% block body %}
 
 {% if messages %}
-    <div >
+    <div>
         {% for message in messages %}
             {{ message.tags }}! {{ message.message }}
         {% endfor %}
     </div>
 {% endif %}
 
-<center>
-{% for post in posts %}
-    <div class="postBox">
-        <div class="postImg">
-            <!--<a href="">-->
-                <img src="{% static 'images/test.jpg' %}" alt="상품 이미지" class="innerImg">
-            <!--</a>-->
-        </div>
+<div class="userInfoBox">
+    <div class="user_info">
+        <img src="{% static 'images/test.jpg' %}" alt="test" class="user_img">
+        <div class="user_id">{{user_id}}</div>
+        {% if user is authenticated %}
+        <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
+        {% endif %}
     </div>
-{% endfor %}
-</center>
+</div>
+
+<div class="post_list">
+    <div class="user_posts">
+        {% for post in posts %}
+            <div class="postBox">
+                <div class="postImg">
+                    <a href="{% url 'pystagram:pn_post_detail' post.post_id %}">
+                        <img src="{% static 'images/test.jpg' %}" alt="이미지" class="innerImg">
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock body %}
