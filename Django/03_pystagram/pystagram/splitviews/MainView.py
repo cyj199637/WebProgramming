@@ -26,13 +26,16 @@ def MainView(request):
         result = cursor.execute(strSql, (user.username, user.username))
         datas = cursor.fetchall()
 
+        current = datetime.datetime.today()
+
         posts = []
         for data in datas:
             raw_data = {'post_id': data[0],
                         'user_id': data[1],
-                        'post_img_src': data[2],
+                        'post_img_url': data[2],
                         'content': data[3],
                         'time': data[4]}
+
             posts.append(raw_data)
 
         render_page = 'main.html'

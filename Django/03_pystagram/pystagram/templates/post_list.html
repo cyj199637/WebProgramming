@@ -28,7 +28,7 @@
     <div class="user_info">
         <img src="{% static 'images/test.jpg' %}" alt="test" class="user_img">
         <div class="user_id">{{user_id}}</div>
-        {% if user is authenticated %}
+        {% if user.is_authenticated %}
         <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
         {% endif %}
     </div>
@@ -40,7 +40,7 @@
             <div class="postBox">
                 <div class="postImg">
                     <a href="{% url 'pystagram:pn_post_detail' post.post_id %}">
-                        <img src="{% static 'images/test.jpg' %}" alt="이미지" class="innerImg">
+                        <img src="{{post.post_img_url}}" alt="Image" class="innerImg">
                     </a>
                 </div>
             </div>
