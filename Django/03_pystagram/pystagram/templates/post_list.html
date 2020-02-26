@@ -26,9 +26,10 @@
 
 <div class="userInfoBox">
     <div class="user_info">
-        <img src="{% static 'images/test.jpg' %}" alt="test" class="user_img">
+        <img src="{{ user.profile_img_src }}" alt="test" class="user_img">
         <div class="user_id">{{user_id}}</div>
         {% if user.is_authenticated %}
+        <button type="submit" class="btn btn-primary" id="modify_btn" onclick="location.href='{% url 'accounts:pn_accounts_modify' %}'">회원정보수정</button>
         <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
         {% endif %}
     </div>

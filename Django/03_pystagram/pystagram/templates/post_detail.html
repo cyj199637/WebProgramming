@@ -29,7 +29,7 @@
         <section class="card_section">
             <div class="card">
                 <header>
-                    <img src="{% static 'images/test.jpg' %}" alt="test">
+                    <img src="{{ user.profile_img_src }}" alt="test">
                     <div class="user_id"><a href="{% url 'pystagram:pn_post_list' post.user_id %}">{{post.user_id}}</a></div>
                 </header>
                 <div class="card_image">
