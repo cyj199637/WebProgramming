@@ -34,12 +34,13 @@ def MainView(request):
                         'user_id': data[1],
                         'post_img_url': data[2],
                         'content': data[3],
-                        'time': data[4]}
+                        'time': data[4],
+                        'postUser': User.objects.get(username=data[1])}
 
             posts.append(raw_data)
 
         render_page = 'main.html'
-        return render(request, render_page, {'user_id': user.username, 'posts': posts,})
+        return render(request, render_page, {'posts': posts,})
 
     except:
         connection.rollback()
@@ -47,7 +48,7 @@ def MainView(request):
 
         messages.error(request, "포스트를 가져오는데 에러가 발생하였습니다.")
         render_page = "main.html"
-        return render(request, render_page, {'user_id': user.username,})
+        return render(request, render_page,)
 
     finally:
         connection.close()

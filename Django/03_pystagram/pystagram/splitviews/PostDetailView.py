@@ -9,7 +9,6 @@ from .common import *
 2. 가져온 포스트를 post_detail.html에 rendering
 """
 
-# @login_required
 def PostDetailView(request, post_id):
     user = request.user
 
@@ -29,8 +28,10 @@ def PostDetailView(request, post_id):
                 'content': data[0][3],
                 'time': data[0][4]}
 
+        postDetailUser = User.objects.get(username=post['user_id'])
+
         render_page = 'post_detail.html'
-        return render(request, render_page, {'user_id': user.username, 'post': post})
+        return render(request, render_page, {'postDetailUser': postDetailUser, 'post': post})
 
     except:
         connection.rollback()
@@ -38,7 +39,7 @@ def PostDetailView(request, post_id):
 
         messages.error(request, "포스트를 가져오는데 에러가 발생하였습니다.")
         render_page = 'post_detail.html'
-        return render(request, render_page, {'user_id': user.username})
+        return render(request, render_page)
 
     finally:
         connection.close()

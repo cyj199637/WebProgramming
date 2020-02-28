@@ -9,9 +9,10 @@ from .common import *
 2. 가져온 포스트를 post_list.html에 rendering
 """
 
-# @login_required
 def PostListView(request, user_id):
     user = request.user
+
+    postListUser = User.objects.get(username=user_id)
 
     try:
         cursor = connection.cursor()
@@ -31,7 +32,7 @@ def PostListView(request, user_id):
             posts.append(raw_data)
 
         render_page = "post_list.html"
-        return render(request, render_page, {'user_id': user_id, 'posts': posts})
+        return render(request, render_page, {'postListUser': postListUser, 'posts': posts})
 
 
     except:

@@ -17,7 +17,7 @@
         <a href="#"><i class="far fa-compass"></i></a>
         <a href="#"><i class="far fa-heart"></i></a>
         {% if user.is_authenticated %}
-        <a href="{% url 'pystagram:pn_post_list' user_id %}"><img src="{{user.profile_img_src}}" alt="test" class="navUserImg"></a>
+        <a href="{% url 'pystagram:pn_post_list' user.username %}"><img src="{{user.profile_img_src}}" alt="test" class="navUserImg"></a>
         {% else %}
         <a href="{% url 'accounts:pn_login' %}"><i class="far fa-user"></i></a>
         {% endif %}

@@ -2,6 +2,7 @@ import os
 import uuid
 import datetime
 
+from accounts.models import User
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.db import connection
 from django.contrib import messages

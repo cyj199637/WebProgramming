@@ -7,7 +7,7 @@
 {% endblock head %}
 
 {% block title %}
-포스트 리스트 페이지 | Pystagram
+{{ postListUser.username }}님의 페이지 | Pystagram
 {% endblock title %}
 
 {% block _nav %}
@@ -24,28 +24,68 @@
     </div>
 {% endif %}
 
-<div class="userInfoBox">
+<div class="main">
     <div class="user_info">
-        <img src="{{ user.profile_img_src }}" alt="test" class="user_img">
-        <div class="user_id">{{user_id}}</div>
-        {% if user.is_authenticated %}
-        <button type="submit" class="btn btn-primary" id="modify_btn" onclick="location.href='{% url 'accounts:pn_accounts_modify' %}'">회원정보수정</button>
-        <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
-        {% endif %}
-    </div>
-</div>
-
-<div class="post_list">
-    <div class="user_posts">
-        {% for post in posts %}
-            <div class="postBox">
-                <div class="postImg">
-                    <a href="{% url 'pystagram:pn_post_detail' post.post_id %}">
-                        <img src="{{post.post_img_url}}" alt="Image" class="innerImg">
-                    </a>
+        <div>
+            <div class="box">
+                <div class="user_img">
+                    <img src="{{ postListUser.profile_img_src }}" alt="profile_img">
                 </div>
+                <div class="info">
+                    <span class="user_id">
+                        <p>{{ postListUser.username }}</p>
+                    </span>
+                    <span class="modify">
+                    {% if postListUser.username == user.username %}
+                        {% if user.is_authenticated %}
+                            <!--프로필편집-->
+                            <a href="{% url 'accounts:pn_accounts_modify' %}"><i class="fas fa-address-card"></i></a>
+                            <!--비밀번호변경-->
+                            <a href="#"><i class="fas fa-key"></i></a>
+                        {% endif %}
+                    {% endif %}
+                </span>
+
+                    <div class="number">
+                        <span class="post_number">
+                        게시글 <p></p>
+                        </span>
+                        <span class="follower_number">
+                        팔로워 <p></p>
+                        </span>
+                        <span class="follow_number">
+                        팔로우 <p></p>
+                        </span>
+                    </div>
+                </div>
+
+                <span class="profile_msg">
+                    <p>{{ postListUser.profile_msg }}</p>
+                </span>
             </div>
-        {% endfor %}
+            <div class="button">
+                {% if postListUser.username == user.username %}
+                    {% if user.is_authenticated %}
+                        <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+    <hr>
+
+        <div class="user_posts">
+            {% for post in posts %}
+                <div class="postBox">
+                    <div class="postImg">
+                        <a href="{% url 'pystagram:pn_post_detail' post.post_id %}">
+                            <img src="{{ post.post_img_url }}" alt="Image" class="innerImg">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
     </div>
 </div>
 {% endblock body %}

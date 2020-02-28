@@ -31,8 +31,8 @@
         <section class="card_section">
             <div class="card">
                 <header>
-                    <img src="{{ user.profile_img_src }}" alt="test">
-                    <div class="user_id"><a href="{% url 'pystagram:pn_post_list' user_id %}">{{post.user_id}}</a></div>
+                    <img src="{{ post.postUser.profile_img_src }}" alt="test">
+                    <div class="user_id"><a href="{% url 'pystagram:pn_post_list' post.user_id %}">{{post.user_id}}</a></div>
                 </header>
                 <div class="card_image">
                     <img src="{{post.post_img_url}}" alt="test">
@@ -71,7 +71,7 @@
                         <img src="{{ user.profile_img_src }}" alt="Image">
                     </span>
                     <span class="user_name">
-                        <a href="{% url 'pystagram:pn_post_list' user_id %}">{{ user_id }}</a>
+                        <a href="{% url 'pystagram:pn_post_list' user.username %}">{{ user.username }}</a>
                     </span>
                 </div>
             </div>
