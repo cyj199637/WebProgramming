@@ -29,7 +29,11 @@
         <div>
             <div class="box">
                 <div class="user_img">
+                    {% if postListUser.profile_img_src == '' %}
+                    <img src="{% static 'images/login.png' %}" alt="profile_img">
+                    {% else %}
                     <img src="{{ postListUser.profile_img_src }}" alt="profile_img">
+                    {% endif %}
                 </div>
                 <div class="info">
                     <span class="user_id">
@@ -41,20 +45,20 @@
                             <!--프로필편집-->
                             <a href="{% url 'accounts:pn_accounts_modify' %}"><i class="fas fa-address-card"></i></a>
                             <!--비밀번호변경-->
-                            <a href="#"><i class="fas fa-key"></i></a>
+                            <a href="{% url 'accounts:pn_password_modify' %}"><i class="fas fa-key"></i></a>
                         {% endif %}
                     {% endif %}
                 </span>
 
                     <div class="number">
                         <span class="post_number">
-                        게시글 <p></p>
+                        게시글 <p>{{ postCount }}</p>
                         </span>
                         <span class="follower_number">
-                        팔로워 <p></p>
+                        팔로워 <p>{{ followerCount }}</p>
                         </span>
                         <span class="follow_number">
-                        팔로우 <p></p>
+                        팔로잉 <p>{{ followingCount }}</p>
                         </span>
                     </div>
                 </div>
@@ -67,6 +71,12 @@
                 {% if postListUser.username == user.username %}
                     {% if user.is_authenticated %}
                         <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
+                    {% endif %}
+                {% else %}
+                    {% if follow == 0 %}
+                        <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="#"'>팔로우</button>
+                    {% else %}
+                        <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="#"'>언팔로우</button>
                     {% endif %}
                 {% endif %}
             </div>

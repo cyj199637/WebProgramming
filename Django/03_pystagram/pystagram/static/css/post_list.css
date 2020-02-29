@@ -83,6 +83,9 @@
     display: block;
     text-align: end;
 }
+#follow_btn{
+    margin-left: 50px;
+}
 /* 포스트 리스트 모아보기 부분 */
 .postBox{
     display: inline-block;

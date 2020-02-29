@@ -11,12 +11,53 @@ from .common import *
 
 def PostListView(request, user_id):
     user = request.user
-
     postListUser = User.objects.get(username=user_id)
 
     try:
         cursor = connection.cursor()
 
+        # 포스트 수
+        strSql = "SELECT COUNT(post_id)"
+        strSql += " FROM post"
+        strSql += " WHERE user_id = (%s)"
+
+        result = cursor.execute(strSql, (user_id,))
+        data = cursor.fetchall()
+        postCount = data[0][0]
+
+
+        # 팔로잉 수
+        strSql = "SELECT COUNT(following_id)"
+        strSql += " FROM following"
+        strSql += " WHERE user_id = (%s)"
+
+        result = cursor.execute(strSql, (user_id,))
+        data = cursor.fetchall()
+        followingCount = data[0][0]
+
+
+        # 팔로워 수
+        strSql = "SELECT COUNT(user_id)"
+        strSql += " FROM following"
+        strSql += " WHERE following_id = (%s)"
+
+        result = cursor.execute(strSql, (user_id,))
+        data = cursor.fetchall()
+        followerCount = data[0][0]
+
+
+        # 현재 로그인한 사용자의 클릭된 사용자에 대한 팔로우 여부
+        strSql = "SELECT COUNT(following_id)"
+        strSql += " FROM following"
+        strSql += " WHERE user_id = (%s)"
+        strSql += " AND following_id = (%s)"
+
+        result = cursor.execute(strSql, (user.username, postListUser.username))
+        data = cursor.fetchall()
+        follow = data[0][0]
+
+
+        # 포스트 리스트
         strSql = "SELECT post_id, post_img_url"
         strSql += " FROM post"
         strSql += " WHERE user_id = (%s)"
@@ -32,8 +73,9 @@ def PostListView(request, user_id):
             posts.append(raw_data)
 
         render_page = "post_list.html"
-        return render(request, render_page, {'postListUser': postListUser, 'posts': posts})
-
+        return render(request, render_page, {'postListUser': postListUser, 'postCount': postCount,
+                                             'followingCount': followingCount, 'followerCount': followerCount,
+                                             'follow': follow, 'posts': posts})
 
     except:
         connection.rollback()

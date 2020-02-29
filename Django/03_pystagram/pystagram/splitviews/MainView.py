@@ -19,8 +19,8 @@ def MainView(request):
 
         strSql = "SELECT post_id, user_id, post_img_url, content, time"
         strSql += " FROM post"
-        strSql += " WHERE user_id IN"
-        strSql += " ((SELECT following_id FROM following WHERE user_id = (%s)), (%s))"
+        strSql += " WHERE user_id IN (SELECT following_id FROM following WHERE user_id = (%s))"
+        strSql += " OR user_id = (%s)"
         strSql += " ORDER BY time DESC"
 
         result = cursor.execute(strSql, (user.username, user.username))
