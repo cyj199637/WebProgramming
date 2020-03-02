@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/post_detail.css' %}">
     <!-- Fontawesome 적용 -->
     <script src="https://kit.fontawesome.com/0b02921f0e.js" crossorigin="anonymous"></script>
 {% endblock head %}
@@ -15,6 +15,22 @@
 {% endblock _nav %}
 
 {% block body %}
+
+<!-- Modal -->
+<div class="modal fade" id="postEditModal" tabindex="-1" role="dialog" aria-labelledby="postEditModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='{% url 'pystagram:pn_post_modify' post.post_id %}'">포스트 수정</button>
+            <button type="button" class="btn btn-secondary" id="deleteBtn" onclick="deleteConfirm({{ post.post_id }})">포스트 삭제</button>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Modal End-->
 
 {% if messages %}
     <div>
@@ -34,7 +50,17 @@
                     {% else %}
                     <img src="{{ postDetailUser.profile_img_src }}" alt="test">
                     {% endif %}
-                    <div class="user_id"><a href="{% url 'pystagram:pn_post_list' postDetailUser.username %}">{{ postDetailUser.username }}</a></div>
+                    <div class="user_id">
+                        <a href="{% url 'pystagram:pn_post_list' postDetailUser.username %}">
+                            {{ postDetailUser.username }}
+                        </a>
+                    </div>
+                    <div class="three_dots_btn">
+                        <!-- Button trigger modal -->
+                        <a href="#" data-toggle="modal" data-target="#postEditModal">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </a>
+                    </div>
                 </header>
                 <div class="card_image">
                     <img src="{{post.post_img_url}}" alt="Image">
@@ -44,11 +70,19 @@
                     <div class="info_left">
                         <i class="far fa-heart"></i>
                         <i class="far fa-comment"></i>
-                        <i class="fas fa-upload"></i>
+                        <!--<i class="fas fa-upload"></i>-->
                     </div>
                     <div class="info_right">
                         <i class="far fa-bookmark"></i>
                     </div>
+                </div>
+                <div class="like_time">
+                    <span class="like_number">
+                        좋아요 <p></p> 개
+                    </span>
+                    <span class="upload_time">
+                        <p>{{ post.time }}</p>
+                    </span>
                 </div>
                 <div class="comment">
                     comment1<br>
@@ -63,4 +97,16 @@
         </section>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // 포스트 삭제 전 확인 질문
+    function deleteConfirm(n) {
+        if (confirm("이 포스트를 삭제하시겠습니까?")) {
+            window.location.href = "/p/delete/" + n;
+        } else {
+            return false;
+        }
+    }
+</script>
 {% endblock body %}

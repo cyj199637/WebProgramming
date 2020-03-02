@@ -11,7 +11,8 @@ urlpatterns = [
     re_path(r'^(?P<user_id>[a-zA-Z0-9-_.]*)/$', PostListView, name='pn_post_list'),
     re_path(r'^p/(?P<post_id>[0-9]+)/$', PostDetailView, name='pn_post_detail'),
     re_path(r'^p/upload/$', PostUploadView, name='pn_post_upload'),
-    re_path(r'^p/modify/$', PostModifyView, name='pn_post_modify'),
+    re_path(r'^p/modify/(?P<post_id>[0-9]+)/$', PostModifyView, name='pn_post_modify'),
+    re_path(r'^p/delete/(?P<post_id>[0-9]+)/$', PostDeleteView, name='pn_post_delete'),
     re_path(r'^follow/(?P<following_id>[a-zA-Z0-9-_.]*)/$', FollowView, name='pn_follow'),
     re_path(r'^unfollow/(?P<following_id>[a-zA-Z0-9-_.]*)/$', UnfollowView, name='pn_unfollow'),
 ]

@@ -36,21 +36,29 @@
                     {% else %}
                     <img src="{{ post.postUser.profile_img_src }}" alt="test">
                     {% endif %}
-                    <div class="user_id"><a href="{% url 'pystagram:pn_post_list' post.user_id %}">{{post.user_id}}</a></div>
+                    <div class="user_id"><a href="{% url 'pystagram:pn_post_list' post.user_id %}">{{ post.user_id }}</a></div>
                 </header>
                 <div class="card_image">
-                    <img src="{{post.post_img_url}}" alt="test">
-                    <p>{{post.content}}</p>
+                    <img src="{{ post.post_img_url }}" alt="test">
+                    <p>{{ post.content }}</p>
                 </div>
                 <div class="info">
                     <div class="info_left">
                         <i class="far fa-heart"></i>
                         <i class="far fa-comment"></i>
-                        <i class="fas fa-upload"></i>
+                        <!--<i class="fas fa-upload"></i>-->
                     </div>
                     <div class="info_right">
                         <i class="far fa-bookmark"></i>
                     </div>
+                </div>
+                <div class="like_time">
+                    <span class="like_number">
+                        좋아요 <p></p> 개
+                    </span>
+                    <span class="upload_time">
+                        <p>{{ post.time }}</p>
+                    </span>
                 </div>
                 <div class="comment">
                     comment1<br>

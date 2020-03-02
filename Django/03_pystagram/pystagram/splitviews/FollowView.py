@@ -29,3 +29,6 @@ def FollowView(request, following_id):
 
         messages.error(request, "팔로우를 하는 과정에서 에러가 발생했습니다.")
         return redirect('pystagram:pn_post_list', following_id)
+
+    finally:
+        connection.close()

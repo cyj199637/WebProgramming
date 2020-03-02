@@ -45,3 +45,6 @@ def PostUploadView(request):
 
             messages.error(request, "포스트를 업로드하는 과정에서 에러가 발생했습니다. 다시 시도해주세요.")
             return redirect('pystagram:pn_post_upload')
+
+        finally:
+            connection.close()

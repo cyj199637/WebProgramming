@@ -1,0 +1,14 @@
+.card{
+    border: 1px solid #c7c7c7;
+    background-color: #fafafa;
+    width: 1000px;
+    height: 500px;
+    margin-top: 20px;
+}
+.post_modify_form{
+    margin: 20px;
+}
+.card_image img{
+    height: 80%;
+    width: 100%;
+}

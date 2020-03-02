@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.db import connection
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.storage import default_storage
 
