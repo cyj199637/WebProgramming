@@ -74,9 +74,9 @@
                     {% endif %}
                 {% else %}
                     {% if follow == 0 %}
-                        <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="#"'>팔로우</button>
-                    {% else %}
-                        <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="#"'>언팔로우</button>
+                        <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="{% url "pystagram:pn_follow" postListUser.username %}"'>팔로우</button>
+                    {% elif follow == 1 %}
+                        <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="{% url "pystagram:pn_unfollow" postListUser.username %}"'>언팔로우</button>
                     {% endif %}
                 {% endif %}
             </div>

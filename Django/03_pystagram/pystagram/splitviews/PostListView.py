@@ -6,12 +6,18 @@ from .common import *
 - PostListView is linked by post_list.html
 
 1. 아이디가 클릭된 유저의 포스트 리스트를 SELECT
-2. 가져온 포스트를 post_list.html에 rendering
+2. 아이디가 클릭된 유저의 게시물 수, 팔로우 수, 팔로잉 수 SELECT
+3. 가져온 포스트를 post_list.html에 rendering
 """
 
 def PostListView(request, user_id):
     user = request.user
-    postListUser = User.objects.get(username=user_id)
+    try:
+        postListUser = User.objects.get(username=user_id)
+
+    except ObjectDoesNotExist:
+        messages.error(request, "존재하지 않는 계정입니다.")
+        return render(request, 'post_list.html')
 
     try:
         cursor = connection.cursor()
