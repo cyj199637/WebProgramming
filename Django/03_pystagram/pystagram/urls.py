@@ -15,6 +15,10 @@ urlpatterns = [
     re_path(r'^p/delete/(?P<post_id>[0-9]+)/$', PostDeleteView, name='pn_post_delete'),
     re_path(r'^follow/(?P<following_id>[a-zA-Z0-9-_.]*)/$', FollowView, name='pn_follow'),
     re_path(r'^unfollow/(?P<following_id>[a-zA-Z0-9-_.]*)/$', UnfollowView, name='pn_unfollow'),
+    re_path(r'^like/(?P<post_id>[0-9]+)/$', LikePostView, name='pn_like_post'),
+    re_path(r'^unlike/(?P<post_id>[0-9]+)/$', UnlikePostView, name='pn_unlike_post'),
+    re_path(r'^bookmark/(?P<post_id>[0-9]+)/$', BookmarkView, name='pn_bookmark'),
+    re_path(r'^unbookmark/(?P<post_id>[0-9]+)/$', UnbookmarkView, name='pn_unbookmark'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,3 +7,7 @@ from .PostModifyView import *
 from .PostDeleteView import *
 from .FollowView import *
 from .UnfollowView import *
+from .LikePostView import *
+from .UnlikePostView import *
+from .BookmarkView import *
+from .UnbookmarkView import *

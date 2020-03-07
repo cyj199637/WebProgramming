@@ -68,15 +68,15 @@
                 </span>
             </div>
             <div class="button">
-                {% if postListUser.username == user.username %}
-                    {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
+                    {% if postListUser.username == user.username %}
                         <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
-                    {% endif %}
-                {% else %}
-                    {% if follow == 0 %}
-                        <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="{% url "pystagram:pn_follow" postListUser.username %}"'>팔로우</button>
-                    {% elif follow == 1 %}
-                        <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="{% url "pystagram:pn_unfollow" postListUser.username %}"'>언팔로우</button>
+                    {% else %}
+                        {% if follow == 0 %}
+                            <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="{% url "pystagram:pn_follow" postListUser.username %}"'>팔로우</button>
+                        {% elif follow == 1 %}
+                            <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="{% url "pystagram:pn_unfollow" postListUser.username %}"'>언팔로우</button>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
             </div>

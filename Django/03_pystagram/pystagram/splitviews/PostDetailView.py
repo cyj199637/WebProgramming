@@ -6,7 +6,8 @@ from .common import *
 - PostDetailViewView is linked by post_detail.html
 
 1. 클릭된 포스트를 SELECT
-2. 가져온 포스트를 post_detail.html에 rendering
+2. (200308 추가) 클릭된 포스트별 세부사항 데이터 SELECT
+3. 가져온 포스트를 post_detail.html에 rendering
 """
 
 def PostDetailView(request, post_id):
@@ -27,6 +28,35 @@ def PostDetailView(request, post_id):
                 'post_img_url': data[0][2],
                 'content': data[0][3],
                 'time': data[0][4]}
+
+        # 포스트 별 좋아요 개수
+        strSql = "SELECT COUNT(*)"
+        strSql += " FROM like_post"
+        strSql += " WHERE post_id = (%s)"
+        result = cursor.execute(strSql, (post['post_id'],))
+        data = cursor.fetchall()
+
+        post['likeCount'] = data[0][0]
+
+        # 로그인한 유저가 해당 포스트에 좋아요를 했는지에 대한 여부
+        strSql = "SELECT COUNT(*)"
+        strSql += " FROM like_post"
+        strSql += " WHERE post_id = (%s)"
+        strSql += " AND user_id = (%s)"
+        result = cursor.execute(strSql, (post['post_id'], user.username))
+        data = cursor.fetchall()
+
+        post['like'] = data[0][0]
+
+        # 로그인한 유저가 해당 포스트를 컬렉션 했는지에 대한 여부
+        strSql = "SELECT COUNT(*)"
+        strSql += " FROM bookmark"
+        strSql += " WHERE post_id = (%s)"
+        strSql += " AND user_id = (%s)"
+        result = cursor.execute(strSql, (post['post_id'], user.username))
+        data = cursor.fetchall()
+
+        post['bookmark'] = data[0][0]
 
         postDetailUser = User.objects.get(username=post['user_id'])
 

@@ -42,6 +42,34 @@ header img{
     display: inline;
     margin-left: 420px;
 }
+/* modal */
+.modal {
+    text-align: center;
+}
+@media screen and (min-width: 768px) {
+    .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
+    }
+}
+.modal-dialog {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+/* Modal 삭제, 수정, 삭제 버튼 */
+.close{
+    margin-left: 15px;
+}
+#modify_btn{
+    display: inline-block;
+    margin-bottom: 10px;
+}
+#delete_btn{
+    display: block;
+}
 .info{
     display: flex;
     justify-content: space-between;
@@ -68,13 +96,4 @@ header img{
 .comment_form form #submit{
     border: none;
     background-color: white;
-}
-/* modal */
-.modal {
-    text-align: center;
-}
-.modal-dialog {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
 }

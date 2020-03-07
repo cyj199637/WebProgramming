@@ -24,8 +24,8 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <button type="button" class="btn btn-secondary" onclick="location.href='{% url 'pystagram:pn_post_modify' post.post_id %}'">포스트 수정</button>
-            <button type="button" class="btn btn-secondary" id="deleteBtn" onclick="deleteConfirm({{ post.post_id }})">포스트 삭제</button>
+            <button type="button" class="btn btn-secondary" id="modify_btn" onclick="location.href='{% url 'pystagram:pn_post_modify' post.post_id %}'">포스트 수정</button>
+            <button type="button" class="btn btn-secondary" id="delete_btn" onclick="deleteConfirm({{ post.post_id }})">포스트 삭제</button>
         </div>
     </div>
 </div>
@@ -68,17 +68,25 @@
                 </div>
                 <div class="info">
                     <div class="info_left">
-                        <i class="far fa-heart"></i>
+                        {% if post.like == 0 %}
+                        <i class="fa-heart far" data-post-id="{{post.post_id}}"></i>
+                        {% else %}
+                        <i class="fa-heart fas" data-post-id="{{post.post_id}}"></i>
+                        {% endif %}
                         <i class="far fa-comment"></i>
                         <!--<i class="fas fa-upload"></i>-->
                     </div>
                     <div class="info_right">
-                        <i class="far fa-bookmark"></i>
+                        {% if post.bookmark == 0 %}
+                        <i class="fa-bookmark far" data-post-id="{{post.post_id}}"></i>
+                        {% else %}
+                        <i class="fa-bookmark fas" data-post-id="{{post.post_id}}"></i>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="like_time">
                     <span class="like_number">
-                        좋아요 <p></p> 개
+                        좋아요 <p>{{post.likeCount}}</p>개
                     </span>
                     <span class="upload_time">
                         <p>{{ post.time }}</p>
@@ -108,5 +116,74 @@
             return false;
         }
     }
+
+    $(document).ready(function(){
+        $(".fa-heart").click(function(){
+            likeBtn = $(this)
+            postId = $(this).attr("data-post-id");
+            likeCount = $(this).parent().parent().next().children().first();
+            if ($(this).attr("class") == "fa-heart far") {
+                $.ajax({
+                    url: "{% url 'pystagram:pn_like_post' 1 %}".replace('1', postId),
+                    data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    dataType: "json",
+                    type: "POST",
+                    success: function(response) {
+                        likeBtn.toggleClass("far fas");
+                        likeCount.html("좋아요 <p>" + response.likeCount + "</p>개");
+                    },
+                    error: function(xhr) {
+                        alert("좋아요를 반영하는 과정에서 에러가 발생했습니다.");
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "{% url 'pystagram:pn_unlike_post' 1 %}".replace('1', postId),
+                    data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    dataType: "json",
+                    type: "POST",
+                    success: function(response) {
+                        likeBtn.toggleClass("far fas");
+                        likeCount.html("좋아요 <p>" + response.likeCount + "</p>개");
+                    },
+                    error: function(xhr) {
+                        alert("좋아요 취소를 반영하는 과정에서 에러가 발생했습니다.");
+                    }
+                });
+            }
+        });
+
+        $(".fa-bookmark").click(function(){
+            bookmarkBtn = $(this)
+            postId = $(this).attr("data-post-id");
+            if ($(this).attr("class") == "fa-bookmark far") {
+                $.ajax({
+                    url: "{% url 'pystagram:pn_bookmark' 1 %}".replace('1', postId),
+                    data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    dataType: "json",
+                    type: "POST",
+                    success: function(response) {
+                        bookmarkBtn.toggleClass("far fas");
+                    },
+                    error: function(xhr) {
+                        alert("컬렉션을 반영하는 과정에서 에러가 발생했습니다.");
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "{% url 'pystagram:pn_unbookmark' 1 %}".replace('1', postId),
+                    data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    dataType: "json",
+                    type: "POST",
+                    success: function(response) {
+                        bookmarkBtn.toggleClass("far fas");
+                    },
+                    error: function(xhr) {
+                        alert("컬렉션 취소를 반영하는 과정에서 에러가 발생했습니다.");
+                    }
+                });
+            }
+        });
+    });
 </script>
 {% endblock body %}
