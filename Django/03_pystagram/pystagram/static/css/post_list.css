@@ -7,7 +7,7 @@
     height: auto;
     width: 100vw;
 }
-/* 사용자 프로필사진,아이디,정보수정버튼,로그아웃버튼*/
+/* 사용자 프로필사진,아이디,정보수정버튼,로그아웃버튼,팔로우버튼*/
 .user_info{
     display: block;
     justify-content: space-between;
@@ -72,6 +72,68 @@
 .follow_number p{
     font-weight: bolder;
 }
+/* Modal */
+.modal-header{
+    display: inline;
+    text-align: center;
+}
+.modal-title{
+    display: inline;
+    justify-content: center;
+}
+.modal-header p{
+    display: inline;
+    margin-inline-start: 2rem;
+    font-weight: bolder;
+    font-size: 16px;
+}
+.modal-header .close {
+    padding: 0.5rem 1rem;
+}
+.close{
+    font-size: 2rem;
+}
+.following_user_form{
+    /* border: 1px solid #e4e4e4; */
+    height: auto;
+    display: flex;
+    padding: 5px;
+}
+.following_user_img{
+    text-align: left;
+}
+.following_user_img img{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    border: 1px solid #efefef;
+    margin: 12px;
+}
+.following_info{
+    display: flex;
+    flex: auto;
+}
+.id_message{
+    margin: 5px;
+    display: inline-block;
+}
+.following_id{
+    display: flex;
+    font-weight: bolder;
+    margin-bottom: 0.2rem;
+}
+.following_id_message{
+    display: flex;
+    color: #999;
+    margin-bottom: 0.2rem;
+}
+.following_btn{
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    margin: 10px 10px 10px 0;
+}
+/**/
 .profile_msg{
     display: block;
     text-align: center;
@@ -84,12 +146,12 @@
     text-align: end;
 }
 #follow_btn{
-    margin-left: 50px;
+    margin-right: 10px;
 }
 /* 포스트 리스트 모아보기 부분 */
 .postBox{
     display: inline-block;
-    }
+}
 .innerImg{
     width: 250px;
     height: 250px;

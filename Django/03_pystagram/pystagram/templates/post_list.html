@@ -16,6 +16,58 @@
 
 {% block body %}
 
+
+<!-- Modal -->
+<div class="modal fade" id="FollowingModalScrollable" tabindex="-1" role="dialog" aria-labelledby="FollowingModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title" id="FollowingModalScrollableTitle">팔로잉</p>
+                <!-- close_btn -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 팔로잉 유저 리스트 -->
+                <div class="following_user_form">
+                    <!-- 프로필사진, 팔로우 아이디, 메세지, 팔로잉, 팔로우 버튼-->
+                    {% for followingUser in followingUsers %}
+                    <div class="following_info">
+                        <div class="following_user_img">
+                            {% if followingUser.profile_img_src == '' %}
+                            <img src="{% static 'images/login.png' %}" alt="profile_img">
+                            {% else %}
+                            <img src="{{ followingUser.profile_img_src }}" alt="profile_img">
+                            {% endif %}
+                        </div>
+                        <div class="id_message">
+                            <div class="following_id">
+                                <a href="{% url 'pystagram:pn_post_list' followingUser.username %}">{{ followingUser.username }}</a>
+                            </div>
+                            <div class="following_id_message">{{ followingUser.profile_msg }}</div>
+                        </div>
+                    </div>
+                    <div class="following_btn">
+                        {% if user.is_authenticated %}
+                            {% if user.username != followingUser.username%}
+                                {% if followingUser.follow == 0 %}
+                                <button type="button" class="btn btn-primary" onclick='follow(this, {{ followingUser.username }})'>팔로우</button>
+                                {% elif followingUser.follow == 1 %}
+                                <button type="button" class="btn btn-light" onclick='unfollow(this, {{ followingUser.username }})'>팔로잉</button>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal End -->
+
+
 {% if messages %}
     <div>
         {% for message in messages %}
@@ -52,13 +104,16 @@
 
                     <div class="number">
                         <span class="post_number">
-                        게시글 <p>{{ postCount }}</p>
+                            게시글 <p>{{ postCount }}</p>
                         </span>
                         <span class="follower_number">
-                        팔로워 <p>{{ followerCount }}</p>
+                            팔로워 <p id="followerCount">{{ followerCount }}</p>
                         </span>
                         <span class="follow_number">
-                        팔로잉 <p>{{ followingCount }}</p>
+                        <!-- Button trigger modal -->
+                            <a href="#" data-toggle="modal" data-target="#FollowingModalScrollable">
+                            팔로잉 <p>{{ followingCount }}</p>
+                            </a>
                         </span>
                     </div>
                 </div>
@@ -73,9 +128,9 @@
                         <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
                     {% else %}
                         {% if follow == 0 %}
-                            <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="{% url "pystagram:pn_follow" postListUser.username %}"'>팔로우</button>
+                            <button type="button" class="btn btn-primary" id="follow_btn" onclick='follow(this, {{ postListUser.username }})'>팔로우</button>
                         {% elif follow == 1 %}
-                            <button type="button" class="btn btn-primary" id="follow_btn" onclick='location.href="{% url "pystagram:pn_unfollow" postListUser.username %}"'>언팔로우</button>
+                            <button type="button" class="btn btn-light" id="follow_btn" onclick='unfollow(this, {{ postListUser.username }})'>팔로잉</button>
                         {% endif %}
                     {% endif %}
                 {% endif %}
@@ -98,4 +153,45 @@
 
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function follow(elm, n) {
+        $.ajax({
+            url: "{% url 'pystagram:pn_follow' 1 %}".replace('1', n),
+            data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            dataType: "json",
+            type: "POST",
+            success: function(response) {
+                $(elm).attr("class", "btn btn-light");
+                $(elm).attr("onclick", "unfollow(this, " + n + ")");
+                $(elm).text("팔로잉");
+                $("#followerCount").text(response.followerCount);
+            },
+            error: function(xhr,status) {
+                alert(xhr + "!!!" + status + "!!!");
+                alert("팔로우를 하는 과정에서 에러가 발생했습니다.");
+            }
+        });
+    }
+
+    function unfollow(elm, n) {
+        $.ajax({
+            url: "{% url 'pystagram:pn_unfollow' 1 %}".replace('1', n),
+            data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            dataType: "json",
+            type: "POST",
+            success: function(response) {
+                $(elm).attr("class", "btn btn-primary");
+                $(elm).attr("onclick", "follow(this, " + n + ")");
+                $(elm).text("팔로우");
+                $("#followerCount").text(response.followerCount);
+            },
+            error: function(xhr, status) {
+                alert(xhr + "!!!" + status + "!!!");
+                alert("언팔로우 하는 과정에서 에러가 발생했습니다.");
+            }
+        });
+    }
+</script>
 {% endblock body %}

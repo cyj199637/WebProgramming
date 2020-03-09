@@ -6,7 +6,7 @@ from .common import *
 - PostDetailViewView is linked by post_detail.html
 
 1. 클릭된 포스트를 SELECT
-2. (200308 추가) 클릭된 포스트별 세부사항 데이터 SELECT
+2. (200308 추가) 클릭된 포스트 세부사항 데이터 SELECT
 3. 가져온 포스트를 post_detail.html에 rendering
 """
 
