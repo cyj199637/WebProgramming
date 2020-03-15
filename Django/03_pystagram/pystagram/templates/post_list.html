@@ -33,31 +33,33 @@
                 <div class="following_user_form">
                     <!-- 프로필사진, 팔로우 아이디, 메세지, 팔로잉, 팔로우 버튼-->
                     {% for followingUser in followingUsers %}
-                    <div class="following_info">
-                        <div class="following_user_img">
-                            {% if followingUser.profile_img_src == '' %}
-                            <img src="{% static 'images/login.png' %}" alt="profile_img">
-                            {% else %}
-                            <img src="{{ followingUser.profile_img_src }}" alt="profile_img">
-                            {% endif %}
-                        </div>
-                        <div class="id_message">
-                            <div class="following_id">
-                                <a href="{% url 'pystagram:pn_post_list' followingUser.username %}">{{ followingUser.username }}</a>
+                    <div>
+                        <div class="following_info">
+                            <div class="following_user_img">
+                                {% if followingUser.profile_img_src == '' %}
+                                <img src="{% static 'images/login.png' %}" alt="profile_img">
+                                {% else %}
+                                <img src="{{ followingUser.profile_img_src }}" alt="profile_img">
+                                {% endif %}
                             </div>
-                            <div class="following_id_message">{{ followingUser.profile_msg }}</div>
+                            <div class="id_message">
+                                <div class="following_id">
+                                    <a href="{% url 'pystagram:pn_post_list' followingUser.username %}">{{ followingUser.username }}</a>
+                                </div>
+                                <div class="following_id_message">{{ followingUser.profile_msg }}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="following_btn">
-                        {% if user.is_authenticated %}
-                            {% if user.username != followingUser.username%}
-                                {% if followingUser.follow == 0 %}
-                                <button type="button" class="btn btn-primary" onclick='follow(this, {{ followingUser.username }})'>팔로우</button>
-                                {% elif followingUser.follow == 1 %}
-                                <button type="button" class="btn btn-light" onclick='unfollow(this, {{ followingUser.username }})'>팔로잉</button>
+                        <div class="following_btn">
+                            {% if user.is_authenticated %}
+                                {% if user.username != followingUser.username%}
+                                    {% if followingUser.follow == 0 %}
+                                    <button type="button" class="btn btn-primary" onclick='follow(this, {{ followingUser.username }})'>팔로우</button>
+                                    {% elif followingUser.follow == 1 %}
+                                    <button type="button" class="btn btn-light" onclick='unfollow(this, {{ followingUser.username }})'>팔로잉</button>
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
-                        {% endif %}
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -128,9 +130,9 @@
                         <button type="button" class="btn btn-primary" onclick="location.href='{% url 'accounts:pn_logout' %}'">로그아웃</button>
                     {% else %}
                         {% if follow == 0 %}
-                            <button type="button" class="btn btn-primary" id="follow_btn" onclick='follow(this, {{ postListUser.username }})'>팔로우</button>
+                            <button type="button" class="btn btn-primary" id="follow_btn" onclick="follow(this, '{{ postListUser.username }}')">팔로우</button>
                         {% elif follow == 1 %}
-                            <button type="button" class="btn btn-light" id="follow_btn" onclick='unfollow(this, {{ postListUser.username }})'>팔로잉</button>
+                            <button type="button" class="btn btn-light" id="follow_btn" onclick="unfollow(this, '{{ postListUser.username }}')">팔로잉</button>
                         {% endif %}
                     {% endif %}
                 {% endif %}
@@ -138,17 +140,24 @@
         </div>
 
     <hr>
-
+        <!-- 탭 메뉴 게시물/저장됨 -->
         <div class="user_posts">
-            {% for post in posts %}
-                <div class="postBox">
-                    <div class="postImg">
-                        <a href="{% url 'pystagram:pn_post_detail' post.post_id %}">
-                            <img src="{{ post.post_img_url }}" alt="Image" class="innerImg">
-                        </a>
-                    </div>
+            <nav>
+                <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-post-tab" data-toggle="tab" href="#nav-post" role="tab" aria-controls="nav-post" aria-selected="true">게시글</a>
+                    {% if postListUser.username == user.username %}
+                    <a class="nav-item nav-link" id="nav-save_post-tab" data-toggle="tab" href="#nav-save_post" role="tab" aria-controls="nav-save_post" aria-selected="false">저장됨</a>
+                    {% endif %}
                 </div>
-            {% endfor %}
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-post" role="tabpanel" aria-labelledby="nav-post-tab">
+                    {% include 'posts.html' %}
+                </div>
+                <div class="tab-pane fade" id="nav-save_post" role="tabpanel" aria-labelledby="nav-save_post-tab">
+                    {% include 'collection.html' %}
+                </div>
+            </div>
         </div>
 
     </div>
@@ -164,9 +173,11 @@
             type: "POST",
             success: function(response) {
                 $(elm).attr("class", "btn btn-light");
-                $(elm).attr("onclick", "unfollow(this, " + n + ")");
+                $(elm).attr("onclick", "unfollow(this, '" + n + "')");
                 $(elm).text("팔로잉");
-                $("#followerCount").text(response.followerCount);
+                if ($(elm).attr("id") == "follow_btn") {
+                    $("#followerCount").text(response.followerCount);
+                }
             },
             error: function(xhr,status) {
                 alert(xhr + "!!!" + status + "!!!");
@@ -183,9 +194,11 @@
             type: "POST",
             success: function(response) {
                 $(elm).attr("class", "btn btn-primary");
-                $(elm).attr("onclick", "follow(this, " + n + ")");
+                $(elm).attr("onclick", "follow(this, '" + n + "')");
                 $(elm).text("팔로우");
-                $("#followerCount").text(response.followerCount);
+                if ($(elm).attr("id") == "follow_btn") {
+                    $("#followerCount").text(response.followerCount);
+                }
             },
             error: function(xhr, status) {
                 alert(xhr + "!!!" + status + "!!!");

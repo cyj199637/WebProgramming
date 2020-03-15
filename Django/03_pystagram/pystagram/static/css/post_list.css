@@ -96,7 +96,6 @@
 .following_user_form{
     /* border: 1px solid #e4e4e4; */
     height: auto;
-    display: flex;
     padding: 5px;
 }
 .following_user_img{
@@ -115,22 +114,21 @@
 }
 .id_message{
     margin: 5px;
-    display: inline-block;
+    display: block;
+    padding-right: 150px;
 }
 .following_id{
-    display: flex;
+    display: block;
     font-weight: bolder;
     margin-bottom: 0.2rem;
 }
 .following_id_message{
-    display: flex;
+    display: block;
     color: #999;
     margin-bottom: 0.2rem;
 }
 .following_btn{
-    display: flex;
-    flex: 0 0 auto;
-    justify-content: flex-end;
+    display: inline-flex;
     margin: 10px 10px 10px 0;
 }
 /**/
@@ -148,7 +146,10 @@
 #follow_btn{
     margin-right: 10px;
 }
-/* 포스트 리스트 모아보기 부분 */
+#unfollow_btn{
+    margin-right: 10px;
+}
+/* user_posts */
 .postBox{
     display: inline-block;
 }

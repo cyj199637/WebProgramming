@@ -8,7 +8,8 @@ from .common import *
 1. 아이디가 클릭된 유저의 포스트 리스트를 SELECT
 2. (200301 추가) 아이디가 클릭된 유저의 게시물 수, 팔로우 수, 팔로잉 수 SELECT
 3. (200309 추가) 팔로잉 리스트 모달에 띄울 팔로잉 유저 데이터 SELECT
-4. 가져온 포스트를 post_list.html에 rendering
+4. (200315 추가) 현재 유저가 컬렉션(북마크)한 포스트 리스트 데이터 SELECT
+5. 가져온 포스트를 post_list.html에 rendering
 """
 
 def PostListView(request, user_id):
@@ -64,22 +65,6 @@ def PostListView(request, user_id):
         follow = data[0][0]
 
 
-        # 포스트 리스트
-        strSql = "SELECT post_id, post_img_url"
-        strSql += " FROM post"
-        strSql += " WHERE user_id = (%s)"
-        strSql += " ORDER BY time DESC"
-
-        result = cursor.execute(strSql, (user_id,))
-        datas = cursor.fetchall()
-
-        posts = []
-        for data in datas:
-            raw_data = {'post_id': data[0],
-                        'post_img_url': data[1],}
-            posts.append(raw_data)
-
-
         # 아이디가 클릭된 유저의 팔로잉 리스트
         strSql = "SELECT username, profile_img_src, profile_msg"
         strSql += " FROM accounts_user AU"
@@ -106,10 +91,44 @@ def PostListView(request, user_id):
 
             followingUsers.append(raw_data)
 
+
+        # 포스트 리스트
+        strSql = "SELECT post_id, post_img_url"
+        strSql += " FROM post"
+        strSql += " WHERE user_id = (%s)"
+        strSql += " ORDER BY time DESC"
+
+        result = cursor.execute(strSql, (user_id,))
+        datas = cursor.fetchall()
+
+        posts = []
+        for data in datas:
+            raw_data = {'post_id': data[0],
+                        'post_img_url': data[1],}
+            posts.append(raw_data)
+
+
+        # 컬렉션 포스트 리스트
+        collection = []
+        if postListUser == user:
+            strSql = "SELECT P.post_id, P.post_img_url"
+            strSql += " FROM post P"
+            strSql += " JOIN bookmark B ON P.post_id = B.post_id"
+            strSql += " WHERE B.user_id = (%s)"
+            strSql += " ORDER BY B.time DESC"
+            result = cursor.execute(strSql, (user_id,))
+            datas = cursor.fetchall()
+
+            for data in datas:
+                raw_data = {'post_id': data[0],
+                            'post_img_url': data[1],}
+                collection.append(raw_data)
+
         render_page = "post_list.html"
         return render(request, render_page, {'postListUser': postListUser, 'postCount': postCount,
                                              'followingCount': followingCount, 'followerCount': followerCount,
-                                             'follow': follow, 'posts': posts, 'followingUsers': followingUsers})
+                                             'follow': follow, 'followingUsers': followingUsers, 'posts': posts,
+                                             'collection': collection})
 
     except:
         connection.rollback()
