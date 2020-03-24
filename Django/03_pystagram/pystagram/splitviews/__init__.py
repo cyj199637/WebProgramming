@@ -11,3 +11,4 @@ from .LikePostView import *
 from .UnlikePostView import *
 from .BookmarkView import *
 from .UnbookmarkView import *
+from .SearchView import *

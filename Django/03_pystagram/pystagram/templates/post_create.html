@@ -30,8 +30,11 @@
             <form action="{% url 'pystagram:pn_post_upload' %}" method="POST" enctype="multipart/form-data" class="post_create_form">
             {% csrf_token %}
                 <div class="form-group">
-                    <!--{% comment %} <input type="textarea" class="form-control" id="content" name="content" placeholder="내용을 입력해주세요."> {% endcomment %}-->
-                    <textarea name="content" rows="10" cols="128"></textarea>
+                    <textarea name="content" rows="10" cols="128" placeholder="문구 입력..."></textarea>
+                </div>
+                <!-- 해시태그 -->
+                <div class="form-group">
+                    <textarea name="hashtag" rows="1" cols="128" placeholder="해시태그 입력..."></textarea>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">

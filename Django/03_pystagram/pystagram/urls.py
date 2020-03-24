@@ -19,6 +19,7 @@ urlpatterns = [
     re_path(r'^unlike/(?P<post_id>[0-9]+)/$', UnlikePostView, name='pn_unlike_post'),
     re_path(r'^bookmark/(?P<post_id>[0-9]+)/$', BookmarkView, name='pn_bookmark'),
     re_path(r'^unbookmark/(?P<post_id>[0-9]+)/$', UnbookmarkView, name='pn_unbookmark'),
+    re_path(r'^p/search/$', SearchView, name='pn_search'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

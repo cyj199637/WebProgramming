@@ -7,7 +7,8 @@ from .common import *
 
 1. 현재 접속하고 있는 유저와 현재 유저가 팔로잉하고 있는 유저들의 포스트 리스트를 SELECT
 2. (200308 추가) 각 포스트별 세부사항 데이터 SELECT
-3. 가져온 포스트를 main.html에 rendering
+3. (200324 추가) 각 포스트별 해시태그 데이터 SELECT
+4. 가져온 포스트를 main.html에 rendering
 """
 
 @login_required
@@ -37,6 +38,7 @@ def MainView(request):
                         'time': data[4],
                         'postUser': User.objects.get(username=data[1])}
 
+
             # 포스트 별 좋아요 개수
             strSql = "SELECT COUNT(*)"
             strSql += " FROM like_post"
@@ -45,6 +47,7 @@ def MainView(request):
             data = cursor.fetchall()
 
             raw_data['likeCount'] = data[0][0]
+
 
             # 로그인한 유저가 해당 포스트에 좋아요를 했는지에 대한 여부
             strSql = "SELECT COUNT(*)"
@@ -56,6 +59,7 @@ def MainView(request):
 
             raw_data['like'] = data[0][0]
 
+
             # 로그인한 유저가 해당 포스트를 컬렉션 했는지에 대한 여부
             strSql = "SELECT COUNT(*)"
             strSql += " FROM bookmark"
@@ -65,6 +69,18 @@ def MainView(request):
             data = cursor.fetchall()
 
             raw_data['bookmark'] = data[0][0]
+
+
+            # 포스트 별 해시태그
+            strSql = "SELECT H.keyword"
+            strSql += " FROM post_hashtag PH"
+            strSql += " JOIN hashtag H ON PH.hashtag_id = H.hashtag_id"
+            strSql += " WHERE PH.post_id = (%s)"
+            result = cursor.execute(strSql, (raw_data['post_id'],))
+            data = cursor.fetchall()
+            hashtags = [x for row in data for x in row]
+
+            raw_data['hashtags'] = hashtags
 
             posts.append(raw_data)
 

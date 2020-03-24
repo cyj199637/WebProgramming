@@ -26,3 +26,6 @@ body{
 #modify_content textarea{
     width: 100%;
 }
+#modify_hashtag textarea{
+    width: 100%;
+}

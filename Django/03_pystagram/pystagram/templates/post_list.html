@@ -48,17 +48,17 @@
                                 </div>
                                 <div class="following_id_message">{{ followingUser.profile_msg }}</div>
                             </div>
-                        </div>
-                        <div class="following_btn">
-                            {% if user.is_authenticated %}
-                                {% if user.username != followingUser.username%}
-                                    {% if followingUser.follow == 0 %}
-                                    <button type="button" class="btn btn-primary" onclick='follow(this, {{ followingUser.username }})'>팔로우</button>
-                                    {% elif followingUser.follow == 1 %}
-                                    <button type="button" class="btn btn-light" onclick='unfollow(this, {{ followingUser.username }})'>팔로잉</button>
+                            <div class="following_btn">
+                                {% if user.is_authenticated %}
+                                    {% if user.username != followingUser.username%}
+                                        {% if followingUser.follow == 0 %}
+                                        <button type="button" class="btn btn-primary" onclick='follow(this, {{ followingUser.username }})'>팔로우</button>
+                                        {% elif followingUser.follow == 1 %}
+                                        <button type="button" class="btn btn-light" onclick='unfollow(this, {{ followingUser.username }})'>팔로잉</button>
+                                        {% endif %}
                                     {% endif %}
                                 {% endif %}
-                            {% endif %}
+                            </div>
                         </div>
                     </div>
                     {% endfor %}

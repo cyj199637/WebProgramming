@@ -70,12 +70,38 @@ header img{
 #delete_btn{
     display: block;
 }
+.content{
+    margin: 15px;
+}
+/* hashtag */
+.hashtag{
+    color: blue;
+}
 .info{
     display: flex;
     justify-content: space-between;
 }
 .info i{
     font-size: 1.5rem;
+}
+.like_time{
+    display: flex;
+    justify-content: space-between;
+}
+.like_number{
+    margin-left: 15px;
+
+}
+.like_number p{
+    font-weight: bolder;
+    display: inline-block;
+}
+.upload_time{
+   margin-right: 15px;
+}
+.upload_time p{
+    font-weight: bolder;
+    display: inline-block;
 }
 .comment{
     margin: 0rem 1rem 1rem 1rem;

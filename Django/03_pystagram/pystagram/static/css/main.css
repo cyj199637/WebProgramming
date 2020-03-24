@@ -35,6 +35,13 @@ header img{
 .user_id{
     display: inline;
 }
+.content{
+    margin: 15px;
+}
+/* hashtag */
+.hashtag{
+    color: blue;
+}
 .info{
     display: flex;
     justify-content: space-between;
@@ -55,8 +62,7 @@ header img{
     display: inline-block;
 }
 .upload_time{
-    margin-right: 120px;
-
+   margin-right: 15px;
 }
 .upload_time p{
     font-weight: bolder;

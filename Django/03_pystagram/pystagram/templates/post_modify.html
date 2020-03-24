@@ -36,7 +36,11 @@
                 <div class="form-group" id="modify_content">
                     <textarea name="content" rows="10" cols="128">{{ post.content }}</textarea>
                 </div>
-            <button type="submit" class="btn btn-primary">수정하기</button>
+                <!-- 해시태그 -->
+                <div class="form-group" id="modify_hashtag">
+                    <textarea name="hashtag" rows="1" cols="128">{{ post.hashtags }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">수정하기</button>
             </form>
         </div>
     </section>

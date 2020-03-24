@@ -41,6 +41,12 @@
                 <div class="card_image">
                     <img src="{{ post.post_img_url }}" alt="test">
                     <p>{{ post.content }}</p>
+                    <!-- hashtag -->
+                    <p class="hashtag">
+                        {% for tag in post.hashtags %}
+                        <a href="{% url 'pystagram:pn_search' %}?keyword={{ tag | urlencode }}">{{ tag }}</a>
+                        {% endfor %}
+                    </p>
                 </div>
                 <div class="info">
                     <div class="info_left">
@@ -61,7 +67,7 @@
                 </div>
                 <div class="like_time">
                     <span class="like_number">
-                        좋아요 <p id="likeCount">{{post.likeCount}}</p>개
+                        좋아요 <p>{{post.likeCount}}</p>개
                     </span>
                     <span class="upload_time">
                         <p>{{ post.time }}</p>
@@ -113,7 +119,7 @@
             success: function(response) {
                 $(elm).attr("class", "fas fa-heart");
                 $(elm).attr("onclick", "unlikePost(this, " + n + ")");
-                $("#likeCount").text(response.likeCount);
+                $(elm).parent().parent().next().children().first().children().text(response.likeCount);
             },
             error: function(xhr, status) {
                 alert(status + "!!!");
@@ -132,7 +138,7 @@
             success: function(response) {
                 $(elm).attr("class", "far fa-heart");
                 $(elm).attr("onclick", "likePost(this, " + n + ")");
-                $("#likeCount").text(response.likeCount);
+                $(elm).parent().parent().next().children().first().children().text(response.likeCount);
             },
             error: function(xhr, status) {
                 alert(status + "!!!");
