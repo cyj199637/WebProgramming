@@ -73,17 +73,11 @@
                         <p>{{ post.time }}</p>
                     </span>
                 </div>
-                <div class="comment">
-                    comment1<br>
-                    comment2<br>
-                </div>
-                <div class="comment_form">
-                    <form action="">
-                        <input type="text" placeholder="댓글 입력..">
-                    </form>
-                </div>
+                <a onclick="reset('{{ post.post_id }}', 'http://127.0.0.1:8000/p/');">댓글 보기</a>
             </div>
         </section>
+        {% empty %}
+            <p>어서 인스타그램 서비스를 시작해보세요!</p>
         {% endfor %}
     </div>
 
@@ -104,6 +98,9 @@
                     </span>
                 </div>
             </div>
+        </div>
+        <div id="disqus_wrapper">
+            <div id="disqus_thread"></div>
         </div>
     </div>
 </div>
@@ -182,5 +179,48 @@
             }
         });
     }
+
+
+    $(window).scroll(function(){
+        var scrollTop = $(document).scrollTop();
+        if (scrollTop < 220) {
+            scrollTop = 220;
+        }
+        $("#disqus_wrapper").stop();
+        $("#disqus_wrapper").animate( { "top" : scrollTop });
+    });
 </script>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'pystagram';
+    var disqus_identifier = '1';
+    var disqus_url = 'http://127.0.0.1:8000/p/';
+	var disqus_config = function () {
+	  this.language = "ko";
+	};
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * Disqus Reset Function * * */
+    var reset = function (newIdentifier, newUrl) {
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                this.page.identifier = newIdentifier;
+                this.page.url = newUrl;
+            }
+        });
+    };
+</script>
+<noscript>
+    Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">
+        comments powered by Disqus.
+    </a>
+</noscript>
 {% endblock body %}

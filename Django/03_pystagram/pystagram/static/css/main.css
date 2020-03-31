@@ -113,3 +113,8 @@ header img{
 .user_name{
     text-align: center;
 }
+#disqus_wrapper{
+    position: absolute;
+    top: 220px;
+    width: 300px
+}
